@@ -83,7 +83,8 @@ trait Uri
             isset($params['SERVER_PROTOCOL']) &&
             \Jasny\str_starts_with(strtoupper($params['SERVER_PROTOCOL']), 'HTTP/')
         ) {
-            $parts['scheme'] = !empty($params['HTTPS']) && $params['HTTPS'] !== 'off' ? 'https' : 'http';
+            $parts['scheme'] = (!empty($params['HTTPS']) && $params['HTTPS'] !== 'off')
+            || (!empty($params['HTTP_X_FORWARDED_PROTO']) && $params['HTTP_X_FORWARDED_PROTO'] === 'https') ? 'https' : 'http';
         }
         
         if (isset($parts['host'])) {
